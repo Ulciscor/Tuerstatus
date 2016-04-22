@@ -1,0 +1,39 @@
+﻿{% include "head.html" with title="Termine" %}
+	<h3>Termin hinzufügen</h3>
+	{% include "add_date_form.html" %}
+	{% if error %}
+		<div class="error_message">{{ error }}</div>
+	{% endif %}
+	<h3>Nächste Termine</h3>
+	{% for d in list %}
+		<div class="{% if d.type == 2 %}openlab{% else %}selflab{% endif %}">{{ d.start|date:"D, d.m.Y H:i" }} - {{ d.end|date:"H:i" }}
+            {% if d.repeat == 1 %}
+            <div class="repeat">Wöchentlich</div>
+            {% endif %}
+			{% if d.repeat == 2 %}
+            <div class="repeat">Täglich</div>
+            {% endif %}
+		<br>
+		Erstellt von {{ d.user }}
+		{% if request.user.username == d.user or user.is_superuser %}
+            {% if d.link != 0 %}
+            <form action="" method="post" class="date_delete">{% csrf_token %}
+                <input type="hidden" name="link" value="{{ d.link }}">
+                <input type="hidden" name="action" value="delete_all">
+                <input type="submit" value="Alle löschen">
+            </form>
+            {% endif %}
+		<form action="" method="post" class="date_delete">{% csrf_token %}
+			<input type="hidden" name="id" value="{{ d.id }}">
+			<input type="hidden" name="action" value="delete">
+			<input type="submit" value="Löschen">
+		</form>
+		<form action="/dates/edit/{{ d.id }}/" method="post" class="date_edit">{% csrf_token %}
+			<input type="hidden" name="id" value="{{ d.id }}">
+			<input type="hidden" name="action" value="edit">
+			<input type="submit" value="Bearbeiten">
+		</form>
+		{% endif %}
+		</div>
+	{% endfor %}
+{% include "foot.html" %}

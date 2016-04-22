@@ -1,0 +1,7 @@
+src/www/tuerstatus/log/
+.settings/
+.project
+.pydevproject
+src/www/db.sqlite3
+*.pyc
+.settings/org.eclipse.core.resources.prefs

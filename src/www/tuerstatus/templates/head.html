@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+{% load static %}
+<link rel="shortcut icon" type="image/x-icon" href="/static/tuerstatus/img/favicon.ico">
+<link rel="stylesheet" type="text/css" href="{% static 'tuerstatus/style.css' %}"/>
+<title>{{ title }}</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+    <script src="https://jonthornton.github.io/jquery-timepicker/jquery.timepicker.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://jonthornton.github.io/jquery-timepicker/jquery.timepicker.css" />
+
+    <!---  <script type="text/javascript" src="/static/tuerstatus/lib/bootstrap-datepicker.js"></script> --->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script> 
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.standalone.css" />
+
+    
+    
+    <script src="lib/pikaday.js"></script>
+    <link rel="stylesheet" type="text/css" href="lib/pikaday.css" />
+
+    <script src="lib/jquery.ptTimeSelect.js"></script>
+    <link rel="stylesheet" type="text/css" href="lib/jquery.ptTimeSelect.css" />
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/ui-lightness/jquery-ui.css" type="text/css" media="all" />
+
+    <script src="lib/moment.min.js"></script>
+    <script src="lib/site.js"></script>
+    <link rel="stylesheet" type="text/css" href="lib/site.css" />
+
+    <script src="dist/datepair.js"></script>
+    <script src="dist/jquery.datepair.js"></script>
+
+    <script src="{% static 'tuerstatus/tuer.js' %}"></script>
+</head>
+
+<body>
+<!-- navigation -->
+<div id="nav">
+	<a href="/dates">Termine</a> 
+	{% if user.is_superuser %}
+	<a href="/users">Benutzer</a> 
+	{% endif %}
+	<a href="/settings">Passwort</a>
+	<a href="/logout">Log out</a>
+</div>
+
+<h1>{{ title }}</h1>
+
+<div id="content">

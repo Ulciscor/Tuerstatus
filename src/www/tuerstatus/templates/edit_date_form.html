@@ -1,0 +1,28 @@
+﻿<form action="/dates/" id="add_date_form" method="post">{% csrf_token %}
+	<div class="form">
+		<div class="form_text">Datum:</div><div class="form_input"><input type="text" name="startdate" value="{{ start|date:'d.m.Y' }}" class="date start" /></div> <br>
+		<div class="form_text">Start:</div><div class="form_input"><input type="text" name="starttime" value="{{ start|date:'H:i' }}" class="time start" /></div> <br>
+		<div class="form_text">Ende:</div><div class="form_input"><input type="text" name="endtime" value="{{ end|date:'H:i' }}" class="time end" /></div> <br>
+		<input type="radio" name="type" value="SelfLab"{% if type == 1 %} checked{% endif%}>SelfLab <input type="radio" name="type" value="OpenLab"{% if type == 2 %} checked{% endif%}>OpenLab<br>
+		{% if repeat == 1 %}Warnung: Es wird nur der gewählte Termin bearbeitet. Beim Bearbeiten wird dieser eine Termin in einen Einzeltermin umgewandelt.<br>{% endif%}
+		<input type="hidden" name="action" value="edit">
+		<input type="hidden" name="id" value="{{ id }}">
+		<input type="submit" value="Änderungen speichern">
+	</div>
+	<script>
+		// initialize input widgets first
+		$('#add_date_form .time').timepicker({
+			'showDuration': true,
+			'timeFormat': 'H:i'
+		});
+
+		$('#add_date_form .date').datepicker({
+			'format': 'dd.mm.yyyy',
+			'autoclose': true
+		});
+
+		// initialize datepair
+		var basicExampleEl = document.getElementById('basicExample');
+		var datepair = new Datepair(basicExampleEl);
+	</script>
+</form>

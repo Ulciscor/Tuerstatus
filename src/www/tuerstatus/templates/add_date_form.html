@@ -1,0 +1,27 @@
+﻿<form action="" id="add_date_form" method="post">{% csrf_token %}
+	<div class="form">
+		<div class="form_text">Datum:</div><div class="form_input"><input type="text" name="startdate" value="{{ today }}" class="date start" /></div> <br>
+		<div class="form_text">Start:</div><div class="form_input"><input type="text" name="starttime" value="{{ time_start }}" class="time start" /></div> <br>
+		<div class="form_text">Ende:</div><div class="form_input"><input type="text" name="endtime" value="{{ time_end }}" class="time end" /></div> <br>
+		<input type="radio" name="type" value="SelfLab" checked>SelfLab <input type="radio" name="type" value="OpenLab">OpenLab<br>
+		<input type="radio" name="repeat" value="once" onclick="hideRepeat()" checked>Einmalig <input type="radio" name="repeat" value="daily" onclick="showRepeat()">Täglich <input type="radio" name="repeat" value="weekly" onclick="showRepeat()">Wöchentlich
+		<div id="repeatCount">
+			<br>Wiederholungen: <input type="number" name="repeatCount" class="repeatInput" max="999" min="1" value="1"/>
+		</div><br>
+	<input type="hidden" name="action" value="add">
+	<input type="submit" value="Neuen Termin hinzufügen">
+	</div>
+	<script>
+		// initialize input widgets first
+		$('#add_date_form .time').timepicker({
+			'showDuration': true,
+			'timeFormat': 'H:i'
+		});
+
+		$('#add_date_form .date').datepicker({
+			'format': 'dd.mm.yyyy',
+			'language': 'de',
+			'autoclose': true
+		});
+	</script>
+</form>

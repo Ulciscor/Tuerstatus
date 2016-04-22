@@ -1,0 +1,19 @@
+{% include "head_base.html" with title="Passwort ändern" %}
+{% if validlink %}
+
+<p>Bitte geben Sie Ihr neues Passwort zweimal ein, damit wir überprüfen können, ob es richtig eingetippt wurde.</p>
+
+<form method="post">{% csrf_token %}
+{{ form.new_password1.errors }}
+<p class="aligned wide"><label for="id_new_password1">Neues Passwort:</label>{{ form.new_password1 }}</p>
+{{ form.new_password2.errors }}
+<p class="aligned wide"><label for="id_new_password2">Passwort wiederholen:</label>{{ form.new_password2 }}</p>
+<p><input type="submit" value="Passwort ändern" /></p>
+</form>
+
+{% else %}
+
+<p>Der Link zum Zurücksetzen Ihres Passworts ist ungültig, wahrscheinlich weil er schon einmal benutzt wurde. Bitte setzen Sie Ihr Passwort erneut zurück.</p>
+<a href="/password_reset/">Neue E-Mail anfordern</a>
+{% endif %}
+{% include "foot.html" %}

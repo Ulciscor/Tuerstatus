@@ -1,0 +1,7 @@
+{% include "head_base.html" with title="Passwort vergessen" %}
+<p>Passwort vergessen? Einfach die E-Mail-Adresse unten eingeben und den Anweisungen zum Zurücksetzen des Passworts in der E-Mail folgen.</p>
+<form method="post">{% csrf_token %}
+<p><label for="id_email">E-Mail-Adresse:</label> {{ form.email }} <input type="submit" value="Passwort zurücksetzen" /></p>
+</form>
+<a href="/login/">Zurück zum Login</a>
+{% include "foot.html" %}

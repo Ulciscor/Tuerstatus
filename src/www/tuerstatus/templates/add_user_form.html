@@ -1,0 +1,9 @@
+﻿<form action="" id="add_date_form" method="post">{% csrf_token %}
+	<div class="form">
+		<div class="form_text_us">Benutzername:</div><div class="form_input"><input type="text" name="username" value="" /></div> <br>
+		<div class="form_text_us">E-Mail:</div><div class="form_input"><input type="text" name="email" value="" /></div> <br>
+		<input type="radio" name="type" value="normal" checked>Normal <input type="radio" name="type" value="admin">Admin<br>
+		<input type="hidden" name="action" value="add">
+		<input type="submit" value="Benutzer erstellen">
+	</div>
+</form>

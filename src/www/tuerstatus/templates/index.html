@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'tuerstatus/style.css' %}"/>
+<link rel="shortcut icon" type="image/x-icon" href="/static/tuerstatus/img/favicon.ico">
+<title>FabLab Status</title>
+</head>
+
+<body>
+
+<h1><img src="/static/tuerstatus/img/Fab_Lab_logo.png" alt="FabLabLogo"/></h1>
+
+<h1>FabLab Status</h1>
+
+<div class="index">
+	<p><span class="
+	{% if status == 1 %}
+		selflab
+	{% elif status == 2 %}
+		openlab
+	{% else %}
+		closedlab
+	{% endif %}
+	">Aktueller Status:
+	{% if status == 1 %}
+		SelfLab
+	{% elif status == 2 %}
+		OpenLab
+	{% else %}
+		Geschlossen
+	{% endif %}
+	</span></p>
+</div>
+
+<div class="index">
+	<h3>Die nächsten Termine</h3>
+		{% for d in list %}
+			<p class="date"><span class="{% if d.type == 2 %}
+			openlab
+		{% else %}
+			selflab
+		{% endif %}">{{ d.start|date:"D, d.m.Y H:i" }} - {{ d.end|date:"H:i" }}</span></p>
+		{% endfor %}
+</div>
+
+<div class="index">
+	<form action="/login">
+    	<input type="submit" value="Einloggen">
+	</form>
+</div>
+
+</body>
+</html> 

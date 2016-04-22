@@ -1,0 +1,8 @@
+{% autoescape off %}
+Es wurde eine Anfrage zum Ändern des Passworts für {{ user.get_username }} für das FabLab Webinterface gestellt.
+Mit dem folgenden Link kann das Passwort geändert werden: 
+{% block reset_link %}
+{{ protocol }}://{{ domain }}{% url 'password_reset_confirm' uidb64=uid token=token %}
+{% endblock %}
+
+{% endautoescape %}

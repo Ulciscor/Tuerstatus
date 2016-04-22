@@ -1,0 +1,17 @@
+﻿{% include "head_base.html" with title="Login" %}
+<div class="contents">
+<form action="/login/" id="login" method="post">{% csrf_token %}
+	<div class="form">
+		<label for="user">Benutzer:</label> <input type="text" name="user" id="user"><br>
+		<label for="password">Passwort:</label> <input type="password" name="pass" id="password"><br><br>
+		<input type="submit" value="Log in">
+	</div>
+</form>
+{% if error %}
+<div class="index">
+{{ error }}
+</div>
+{% endif %}
+<a href="/password_reset/">Passwort vergessen?</a>
+</div>
+{% include "foot.html" %}

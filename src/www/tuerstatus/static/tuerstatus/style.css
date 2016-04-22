@@ -1,0 +1,149 @@
+body {
+    background-color: #d9d9d9;
+    font-family: Tahoma;
+}
+
+h1 {
+	text-align: center;
+}
+
+#nav {
+	font-size:16pt;
+    	font-family: Verdana;
+	text-align: center;
+	width: 500px;
+    	margin: auto;
+}
+
+#nav a:link, a:visited {
+    background-color: #333333;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    width: 110px;
+    border-radius:15px;
+    padding: 4px;
+}
+
+#nav a:hover, a:active {
+    background-color: #555555;
+}
+
+#content {
+	font-size: 14pt;
+	margin: auto;
+	width: 500px;
+}
+
+.contents {
+	font-size: 14pt;
+	margin: auto;
+	width: 300px;
+	text-align: center;
+}
+
+.index {
+	font-size: 14pt;
+	text-align: center;
+	
+}
+
+.date form {
+	float: right;
+}
+
+.openlab {
+	position:relative;
+	padding:8px;
+ 	margin:1em 0 1em;
+	color:#000;
+	background:#00bb44;
+  	border-radius:15px;
+}
+
+.selflab {
+	position:relative;
+	padding:8px;
+ 	margin:1em 0 1em;
+	color:#000;
+	background:#ffdd00; 
+  	border-radius:15px;
+}
+
+.closedlab {
+	position:relative;
+	padding:8px;
+ 	margin:1em 0 1em;
+	color:#000;
+	background:#ff0000; 
+  	border-radius:15px;
+}
+
+.selflab form {
+	float: right;
+}
+
+.openlab form {
+	float: right;
+}
+
+.form_text {
+    width: 75px;
+    display: inline-block;
+}
+
+.form_input {
+    width: 300px;
+    display: inline-block;
+}
+
+.form_text_pw {
+    width: 180px;
+    display: inline-block;
+}
+
+.form_text_us {
+    width: 150px;
+    display: inline-block;
+}
+
+#add_date_form {
+    margin-top: -25px;
+}
+
+.repeat {
+    float: right;
+    display: inline;
+}
+
+#repeatCount {
+	display: none;
+}
+
+.repeatInput {
+	width: 40px;
+}
+
+.form {
+	position:relative;
+	padding:8px;
+ 	margin:1em 0 1em;
+	color:#000;
+	background:#5F9EA0; 
+  	border-radius:15px;
+}
+
+.form_super {
+	position:relative;
+	padding:8px;
+ 	margin:1em 0 1em;
+	color:#000;
+	background:#f4511e; 
+  	border-radius:15px;
+}
+
+.error_message {
+	color:red;
+	font-size:125%;
+}

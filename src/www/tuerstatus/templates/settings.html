@@ -1,0 +1,11 @@
+﻿{% include "head.html" with title="Passwort ändern" %}
+<form action="" id="change_pass" method="post">{% csrf_token %}
+	<div class="form">
+        <div class="form_text_pw">Altes Passwort:</div><div class="form_input"><input type="password" name="old_pass" value="" /></div><br>
+        <div class="form_text_pw">Neues Passwort:</div><div class="form_input"><input type="password" name="new_pass" value="" /></div><br>
+        <div class="form_text_pw">Passwort bestätigen:</div><div class="form_input"><input type="password" name="new_pass2" value="" /></div><br>
+        <input type="submit" value="Passwort ändern">
+	</div>
+</form>
+{{ message }}
+{% include "foot.html" %}

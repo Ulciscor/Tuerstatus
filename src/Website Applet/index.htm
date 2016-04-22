@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="countdown" id="fablabtuer"></div>
+<script>
+// Defined Colors
+var red = '#f44336';
+var yellow = '#ffd700';
+var green = '#26af30';
+
+// Defined Strings
+var openLab = 'OpenLab';
+var selfLab = 'SelfLab';
+var closedLab = 'ClosedLab';
+
+// Refresh intervall data
+var refreshData = 30; //s
+
+// HTML Objects
+var countdown = document.getElementById("fablabtuer");
+
+// Globals 
+var initialReadFlag = false;
+var xmlDoc, index,
+  startTime, endTime, deadline, type, started,
+  open = false,
+  running = false;
+
+
+var XMLHttpFactories = [
+  function() {
+    return new XMLHttpRequest()
+  },
+  function() {
+    return new ActiveXObject("Msxml2.XMLHTTP")
+  },
+  function() {
+    return new ActiveXObject("Msxml3.XMLHTTP")
+  },
+  function() {
+    return new ActiveXObject("Microsoft.XMLHTTP")
+  }
+];
+
+function createXMLHTTPObject() {
+  var xmlhttp = false;
+  for (var i = 0; i < XMLHttpFactories.length; i++) {
+    try {
+      xmlhttp = XMLHttpFactories[i]();
+    } catch (e) {
+      continue;
+    }
+    break;
+  }
+  return xmlhttp;
+}
+
+var xhttp = createXMLHTTPObject();
+
+xhttp.onreadystatechange = function() {
+  if (xhttp.readyState == 4 && xhttp.status == 200) {
+    getData(xhttp);
+  }
+};
+
+function loadXML() {
+    xhttp.open("GET", "./xml/dates.xml", true);
+    xhttp.send();
+}
+
+// Get index of current date
+function getData(xml) {
+  xmlDoc = xml.responseXML;
+  if (!initialReadFlag) {
+    setClosed()
+    initialReadFlag = true;
+    getDate();
+    setDeadline();
+    initializeClock(deadline);
+  }
+}
+
+function getDate() {
+  var x, i, now = new Date();
+
+  x = xmlDoc.getElementsByTagName("end");
+
+  // Find closest not ended date
+  for (i = 0; i < x.length; i++) {
+    endTime = parseStrToDate(x[i].childNodes[0].nodeValue);
+    if (endTime >= now) {
+      index = i;
+      break;
+    }
+  }
+
+  //if no index exist show closedLab
+  //if (typeof index == 'undefined'){
+  //}
+
+
+  startTime = parseStrToDate(xmlDoc.getElementsByTagName("start")[index].childNodes[0].nodeValue);
+  type = xmlDoc.getElementsByTagName("type")[index].childNodes[0].nodeValue;
+  started = xmlDoc.getElementsByTagName("started")[index].childNodes[0].nodeValue;
+}
+
+function setDeadline() {
+  if (startTime >= new Date()) {
+    deadline = startTime;
+  } else {
+    deadline = endTime;
+  }
+}
+
+function getTimeRemaining(endtime) {
+  var now = Date.parse(new Date());
+  var t;
+  if (endtime > now) {
+    t = Date.parse(endtime) - now;
+  } else {
+    t = 0;
+  }
+  var seconds = Math.floor((t / 1000) % 60);
+  var minutes = Math.floor((t / 1000 / 60) % 60);
+  var hours = Math.floor((t / (1000 * 60 * 60)) % 24);
+  var days = Math.floor(t / (1000 * 60 * 60 * 24));
+  return {
+    'total': t,
+    'days': days,
+    'hours': hours,
+    'minutes': minutes,
+    'seconds': seconds
+  };
+}
+
+function initializeClock(endtime) {
+  var refreshBinaryBool;
+  var counterStr;
+  var labType;
+
+  function updateClock() {
+    var t = getTimeRemaining(endtime);
+    labType = fillWord();
+
+    setIfOpen();
+    setColor();
+    if (open || !running) {
+      if (parseInt(t.days) > 0) {
+        counterStr = labType + (t.days + ' T. ' + ('0' + t.hours).slice(-2) + ' St. ' + ('0' + t.minutes).slice(-2) + ' Min. ');
+      } else {
+        counterStr = labType + (('0' + t.hours).slice(-2) + ' St. ' + ('0' + t.minutes).slice(-2) + ' Min. ' + ('0' + t.seconds).slice(-2) + ' Sek.');
+      }
+      if (t.total <= 0 && !open) {
+        counterStr = ' in wenigen Sekunden';
+      }
+      countdown.innerHTML = nameForType(type) + counterStr;
+    }
+
+    if (t.total <= 0) {
+      if (!open) {
+        getDate();
+      }
+      setDeadline();
+      endtime = deadline;
+    }
+
+    refreshBinaryBool = Math.floor((Date.parse(new Date()) / 1000) % 60) % refreshData;
+    if (refreshBinaryBool == 1) {
+      loadXML();
+      getDate();
+      setDeadline();
+      endtime = deadline;
+    }
+  }
+
+  updateClock();
+  var timeinterval = setInterval(updateClock, 1000);
+}
+
+function setColor() {
+  if (open) {
+    if (type == '2') {
+      countdown.style.backgroundColor = green;
+    } else {
+      countdown.style.backgroundColor = yellow;
+    }
+  } else {
+    countdown.style.backgroundColor = red;
+  }
+}
+
+function setClosed() {
+  countdown.innerHTML = closedLab;
+  countdown.style.backgroundColor = red;
+}
+
+function setIfOpen() {
+  var now = new Date();
+  if (now >= startTime && now <= endTime) {
+    running = true;
+    if (started == '1') {
+      open = true;
+    } else {
+      open = false;
+    }
+  } else {
+    running = false;
+    open = false;
+  }
+}
+
+function fillWord() {
+  var fillWord;
+  var now = new Date();
+  if (open) {
+    fillWord = ' noch ';
+  } else {
+    fillWord = ' in ';
+  }
+  return fillWord;
+}
+
+function nameForType(type) {
+  if (type == '2') {
+    return openLab;
+  } else if (type == '1') {
+    return selfLab;
+  } else {
+    return closedLab;
+  }
+}
+
+//parses from format 'yyyy-mm-dd hh:mm:ss' to date (for IE and Firefox necessary)
+function parseStrToDate(dateStr) {
+    var date = dateStr.split(" ")[0].split("-");
+    var time = dateStr.split(" ")[1].split(":");
+    var year = date[0];
+    var month = (parseInt(date[1]) - 1).toString();
+    var day = date[2];
+    var hours = time[0];
+    var minutes = time[1];
+    var seconds = time[2];
+
+    return new Date(year, month, day, hours, minutes, seconds, 0);
+}
+
+loadXML();
+  </script>
+</body>
+</html>

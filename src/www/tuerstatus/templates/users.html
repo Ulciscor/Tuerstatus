@@ -1,0 +1,31 @@
+﻿{% include "head.html" with title="Benutzer" %}
+	{% if user.is_superuser %}
+	<h3>Neuen Benutzer erstellen</h3>
+	{% include "add_user_form.html" %}
+	{{ error }}
+	<h3>Benutzerübersicht</h3>
+	<p id="neu"></p>
+	{% for u in list %}
+		<div class="{% if u.is_superuser%}form_super{% else %}form{% endif %}">
+			<div class="date">{{ u.username }}<br>
+					  {{ u.email }}
+            				{% if u != user %}
+            					<form action="" method="post" class="date_delete">{% csrf_token %}
+                					<input type="hidden" name="id" value="{{ u.id }}">
+                					<input type="hidden" name="action" value="delete">
+                					<input type="submit" value="Löschen">
+            					</form>
+            				{% endif %}
+            				<br>
+					{% if u.is_superuser %}
+					Admin
+					{% else %}
+					Normal
+					{% endif %}
+			</div>
+		</div>
+	{% endfor %}
+	{% else %}
+	<p>Nur Admins können auf die Benutzerverwaltung zugreifen.</p>
+	{% endif %}
+{% include "foot.html" %}
